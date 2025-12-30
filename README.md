@@ -9,6 +9,24 @@
 ![Demo Output](demo_result.png)
 
 ## 🏗 Architecture
+graph TD
+    User[User (Manager)] -->|Natural Language Query| Agent[AI Agent (Python)]
+    
+    subgraph "The Brain (Cloud)"
+        Agent -->|Prompt Engineering| LLM[Llama-3 via Groq]
+        LLM -->|SQL Generation| Agent
+    end
+    
+    subgraph "The Body (Local/Edge)"
+        Agent -->|Execute SQL| DB[(Railway Fault Database)]
+        DB -->|Return Data| Agent
+    end
+    
+    Agent -->|Final Answer| User
+    
+    style User fill:#f9f,stroke:#333,stroke-width:2px
+    style LLM fill:#bbf,stroke:#333,stroke-width:2px
+    style DB fill:#bfb,stroke:#333,stroke-width:2px
 This project implements a **Hybrid Edge-Cloud Architecture**:
 1.  **Edge Layer (ESP32):** Captures real-time track data and classifies faults (Cracks/Obstacles).
 2.  **Data Layer (SQLite):** Stores structured fault logs locally.
