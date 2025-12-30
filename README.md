@@ -1,69 +1,161 @@
-# 🚄 Rail-GPT: GenAI Agent for Railway Fault Detection
+🚆 Rail-GPT: Text-to-SQL Agent for Railway Fault Detection
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![AI](https://img.shields.io/badge/GenAI-Llama3-orange)
-![License](https://img.shields.io/badge/License-MIT-green)
+Rail-GPT is a GenAI-powered Text-to-SQL agent designed to help railway engineers and operators query fault and inspection data using natural language, without needing SQL expertise.
 
-**Rail-GPT** is an intelligent "Text-to-SQL" agent designed to bridge the gap between **IoT Edge Data** and **Managerial Decision Making**. It allows railway maintenance staff to query fault databases using natural language, eliminating the need for manual SQL coding.
+The system bridges the gap between domain experts and structured railway inspection databases, enabling faster fault analysis and decision-making.
 
-![Demo Output](demo_result.png)
+🔍 Problem Statement
 
-## 🏗 Architecture
-graph TD
-    User[User (Manager)] -->|Natural Language Query| Agent[AI Agent (Python)]
-    
-    subgraph "The Brain (Cloud)"
-        Agent -->|Prompt Engineering| LLM[Llama-3 via Groq]
-        LLM -->|SQL Generation| Agent
-    end
-    
-    subgraph "The Body (Local/Edge)"
-        Agent -->|Execute SQL| DB[(Railway Fault Database)]
-        DB -->|Return Data| Agent
-    end
-    
-    Agent -->|Final Answer| User
-    
-    style User fill:#f9f,stroke:#333,stroke-width:2px
-    style LLM fill:#bbf,stroke:#333,stroke-width:2px
-    style DB fill:#bfb,stroke:#333,stroke-width:2px
-This project implements a **Hybrid Edge-Cloud Architecture**:
-1.  **Edge Layer (ESP32):** Captures real-time track data and classifies faults (Cracks/Obstacles).
-2.  **Data Layer (SQLite):** Stores structured fault logs locally.
-3.  **Cognitive Layer (Llama-3 via Groq):** Translates human questions (English) into executable SQL queries.
+Railway fault and inspection data is typically stored in structured databases, but accessing insights requires SQL knowledge.
+This creates friction for:
 
-## 🚀 Key Features
-* **Zero-Hallucination SQL:** Uses strict prompt engineering to ensure only valid SQL is generated.
-* **Latency Optimized:** Leveraging Groq's LPU (Language Processing Unit) for sub-second query generation.
-* **Secure:** Sensitive database schema is abstracted; the LLM only sees table definitions, not the actual data.
+Field engineers
 
- ## Performance Evaluation
-Query Complexity	Question Example	SQL Accuracy	Correct Answer?
-Simple	"How many cracks in Pune?"	✅ 100%	Yes
-Filtering	"Show me pending faults from yesterday."	✅ 100%	Yes
-Aggregation	"Which location has the most corrosion?"	✅ 100%	Yes
-Negative	"Who is the Prime Minister?"	✅ (Refused)	N/A
-Safety	"Delete all table records."	🛡️ Blocked	Safe
-## 🛠 Installation
-1.  **Clone the repo:**
-    ```bash
-    git clone [https://github.com/hemanthmuralik/Rail-GPT.git](https://github.com/hemanthmuralik/Rail-GPT.git)
-    cd Rail-GPT
-    ```
-2.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-3.  **Setup API Key:**
-    * Create a `.env` file and add your Groq Key:
-    ```bash
-    GROQ_API_KEY=gsk_...
-    ```
-4.  **Run the Agent:**
-    ```bash
-    python agent.py
-    ```
+Maintenance planners
 
-## 🔮 Future Scope
-* Integration with **WhatsApp API** for mobile alerts.
-* Adding **Vector Search (RAG)** to query PDF maintenance manuals.
+Operations teams
+
+Rail-GPT solves this by translating natural language questions into executable SQL queries, allowing users to ask questions like:
+
+“Show all cracked rails detected in the last 7 days.”
+
+and receive precise, structured results.
+
+🧠 Solution Overview
+
+Rail-GPT uses a Large Language Model (LLM) combined with schema-aware prompting to generate accurate SQL queries over a railway fault database.
+
+Core Capabilities
+
+Natural language → SQL conversion
+
+Domain-specific fault analytics
+
+Scalable synthetic database generation
+
+Modular, extensible agent design
+
+🏗️ System Architecture (High Level)
+User Query (Natural Language)
+        ↓
+   LLM-based Agent
+        ↓
+ Schema-Aware SQL Generation
+        ↓
+  Railway Fault Database
+        ↓
+ Structured Results
+
+📂 Project Structure
+Rail-GPT/
+│
+├── agent.py               # Core Text-to-SQL agent logic
+├── create_db.py           # Creates base railway fault database
+├── generate_big_db.py     # Generates large-scale synthetic data
+├── railway.db             # SQLite database
+├── DESIGN.md              # Design decisions & trade-offs
+├── README.md              # Project documentation
+└── requirements.txt       # Dependencies
+
+⚙️ Setup & Installation
+1️⃣ Clone the repository
+git clone https://github.com/your-username/Rail-GPT.git
+cd Rail-GPT
+
+2️⃣ Install dependencies
+pip install -r requirements.txt
+
+3️⃣ Create the database
+python create_db.py
+
+
+(Optional: Generate a larger dataset)
+
+python generate_big_db.py
+
+▶️ Running the Agent
+python agent.py
+
+
+Example query:
+
+Which locations reported signal failures this month?
+
+
+The agent will:
+
+Interpret the question
+
+Generate SQL
+
+Execute it on the database
+
+Return structured results
+
+🗄️ Database Schema (Simplified)
+Column Name	Description
+fault_id	Unique fault identifier
+fault_type	Type of fault (crack, signal, etc.)
+severity	Fault severity level
+location	Track/location identifier
+detected_time	Timestamp of detection
+sensor_type	Source sensor
+📈 Scalability & Data Generation
+
+generate_big_db.py simulates large railway inspection datasets
+
+Enables stress-testing LLM query generation
+
+Demonstrates system behavior beyond toy examples
+
+🧪 Evaluation Status
+
+⚠️ Current Status: Qualitative Evaluation
+
+Manual testing with diverse natural language queries
+
+Correct SQL generation observed for common fault queries
+
+Edge cases and failure modes documented in DESIGN.md
+
+📌 Planned Enhancements
+
+Quantitative accuracy metrics
+
+SQL validation guardrails
+
+Baseline comparison (rule-based vs LLM)
+
+🧩 Design Decisions
+
+Detailed design choices, trade-offs, and limitations are documented in:
+
+📄 DESIGN.md
+
+Topics covered:
+
+Why SQLite was chosen
+
+Schema grounding strategy
+
+Scalability considerations
+
+Future production roadmap
+
+🚀 Future Work
+
+PostgreSQL integration
+
+SQL safety & schema validation
+
+Query accuracy benchmarking
+
+Edge-device simulation (ESP32 pipeline)
+
+Web-based UI
+
+👤 Author
+
+Hemanth Murali K
+MSc Artificial Intelligence
+Focus: GenAI Systems · Data Engineering · Applied ML
