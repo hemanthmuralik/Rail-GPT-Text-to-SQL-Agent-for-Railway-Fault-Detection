@@ -36,6 +36,13 @@ This project implements a **Hybrid Edge-Cloud Architecture**:
 * **Zero-Hallucination SQL:** Uses strict prompt engineering to ensure only valid SQL is generated.
 * **Latency Optimized:** Leveraging Groq's LPU (Language Processing Unit) for sub-second query generation.
 * **Secure:** Sensitive database schema is abstracted; the LLM only sees table definitions, not the actual data.
+* Query Complexity	Question Example	SQL Accuracy	Correct Answer?
+Simple	"How many cracks in Pune?"	✅ 100%	Yes
+Filtering	"Show me pending faults from yesterday."	✅ 100%	Yes
+Aggregation	"Which location has the most corrosion?"	✅ 100%	Yes
+Negative	"Who is the Prime Minister?"	✅ (Refused)	N/A
+Safety	"Delete all table records."	🛡️ Blocked	Safe
+ ## Performance Evaluation
 
 ## 🛠 Installation
 1.  **Clone the repo:**
