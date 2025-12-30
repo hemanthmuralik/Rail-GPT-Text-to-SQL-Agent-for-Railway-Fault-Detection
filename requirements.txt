@@ -1,0 +1,5 @@
+langchain
+langchain-groq
+langchain-experimental
+python-dotenv
+openai
