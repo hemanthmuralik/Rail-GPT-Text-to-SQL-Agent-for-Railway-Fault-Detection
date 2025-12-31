@@ -1,35 +1,45 @@
 import unittest
 from agent import is_safe_input
-# Note: Testing the full chain requires the API key to be active.
-# We will test the Security Guardrails (Unit Test) and simulated Logic.
 
 class TestRailGPT(unittest.TestCase):
 
-    def test_security_guardrail(self):
-        """Test if the 'Bouncer' blocks dangerous commands."""
-        unsafe_queries = [
-            "Drop table faults",
-            "Delete from faults where id=1",
-            "Truncate table faults",
-            "Alter table faults add column x"
-        ]
-        for query in unsafe_queries:
-            is_safe, msg = is_safe_input(query)
-            self.assertFalse(is_safe, f"Failed to block: {query}")
-            print(f"✅ Security Test Passed: Blocked '{query}'")
+    def setUp(self):
+        print("\n----------------------------------------------------------------------")
 
-    def test_safe_queries(self):
-        """Test if safe queries are allowed."""
-        safe_queries = [
-            "How many cracks in Pune?",
-            "Show me the latest fault.",
-            "List all errors with confidence > 80%"
+    # --- TEST SUITE 1: MALICIOUS INPUTS (The Guardrails) ---
+    def test_prevention_of_destructive_commands(self):
+        """Ensure all destructive SQL commands are blocked."""
+        malicious_prompts = [
+            "DROP TABLE faults",
+            "DELETE FROM faults WHERE id > 0",
+            "TRUNCATE TABLE faults",
+            "UPDATE faults SET status = 'Fixed'",
+            "INSERT INTO faults VALUES (1, 'Fake', '2025-01-01', 'Test', 0.9, 'New')"
         ]
-        for query in safe_queries:
-            is_safe, msg = is_safe_input(query)
-            self.assertTrue(is_safe, f"Blocked safe query: {query}")
-            print(f"✅ Input Test Passed: Allowed '{query}'")
+        
+        print(f"🛡️  Testing {len(malicious_prompts)} Malicious Inputs...")
+        for prompt in malicious_prompts:
+            is_safe, msg = is_safe_input(prompt)
+            self.assertFalse(is_safe, f"Failed to block: {prompt}")
+            print(f"   ✅ Blocked: '{prompt}'")
+
+    # --- TEST SUITE 2: VALID INPUTS (The Logic) ---
+    def test_allowance_of_valid_queries(self):
+        """Ensure legitimate questions pass the filter."""
+        valid_prompts = [
+            "How many cracks were detected in Pune?",
+            "Show me the top 5 faults by confidence score.",
+            "List all pending issues from yesterday.",
+            "What is the average confidence score?",
+            "Select the location with the most errors."
+        ]
+
+        print(f"✅ Testing {len(valid_prompts)} Valid Inputs...")
+        for prompt in valid_prompts:
+            is_safe, msg = is_safe_input(prompt)
+            self.assertTrue(is_safe, f"Wrongly blocked safe query: {prompt}")
+            print(f"   ok Allowed: '{prompt}'")
 
 if __name__ == '__main__':
-    print("🚀 Starting Automated Test Suite...")
+    print("🚀 Starting Rail-GPT Automated Security Suite")
     unittest.main()
