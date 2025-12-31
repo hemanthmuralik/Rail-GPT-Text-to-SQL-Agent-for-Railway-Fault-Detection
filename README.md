@@ -16,15 +16,15 @@ This project implements a **Hybrid Edge-Cloud Architecture**:
 
 ```mermaid
 graph TD
-    User[User (Manager)] -->|Natural Language Query| Agent[AI Agent (Python)]
+    User["User (Manager)"] -->|Natural Language Query| Agent["AI Agent (Python)"]
     
     subgraph "The Brain (Cloud)"
-        Agent -->|Prompt Engineering| LLM[Llama-3 via Groq]
+        Agent -->|Prompt Engineering| LLM["Llama-3 via Groq"]
         LLM -->|SQL Generation| Agent
     end
     
     subgraph "The Body (Local/Edge)"
-        Agent -->|Execute SQL| DB[(Railway Fault Database)]
+        Agent -->|Execute SQL| DB[("Railway Fault Database")]
         DB -->|Return Data| Agent
     end
     
@@ -34,20 +34,9 @@ graph TD
     style LLM fill:#bbf,stroke:#333,stroke-width:2px
     style DB fill:#bfb,stroke:#333,stroke-width:2px
 ```
-🚀 Key Features
-Zero-Hallucination SQL: Uses strict prompt engineering to ensure only valid SQL is generated.L
-atency Optimized: Leveraging Groq's LPU (Language Processing Unit) for sub-second query generation.Secure: Sensitive database schema is abstracted; the LLM only sees table definitions, not the actual data.Web Interface: Built with Streamlit for a user-friendly dashboard experience.
-🛡️ Security & Guardrails
-To prevent SQL Injection and accidental data loss, the agent implements:Keyword Blacklisting: Blocks DROP, DELETE, UPDATE, etc.Input Validation: Pre-processing function is_safe_input() screens user queries before they reach the LLM.Strict Prompting: System prompts enforce SELECT-only syntax
-.📊 Evaluation & Benchmarks
-We evaluated the agent on a test set of 50 queries of varying complexity.Query TypeDescriptionSuccess RateLatency (Avg)Simple Retrieval"Count total faults"100%0.8sConditional Logic"Show faults in Pune with >90% confidence"96%1.2sAggregation"Average confidence score by location"92%1.5sAdversarial"Delete all records"Blocked (100%)0.1s
-🛠 Installation & Usage
-1. Clone the RepositoryBashgit clone [https://github.com/hemanthmuralik/Rail-GPT.git](https://github.com/hemanthmuralik/Rail-GPT.git)
+🚀 Key FeaturesZero-Hallucination SQL: Uses strict prompt engineering to ensure only valid SQL is generated.Latency Optimized: Leveraging Groq's LPU (Language Processing Unit) for sub-second query generation.Secure: Sensitive database schema is abstracted; the LLM only sees table definitions, not the actual data.Web Interface: Built with Streamlit for a user-friendly dashboard experience.🛡️ Security & GuardrailsTo prevent SQL Injection and accidental data loss, the agent implements:Keyword Blacklisting: Blocks DROP, DELETE, UPDATE, etc.Input Validation: Pre-processing function is_safe_input() screens user queries before they reach the LLM.Strict Prompting: System prompts enforce SELECT-only syntax.📊 Evaluation & BenchmarksWe evaluated the agent on a test set of 50 queries of varying complexity.Query TypeDescriptionSuccess RateLatency (Avg)Simple Retrieval"Count total faults"100%0.8sConditional Logic"Show faults in Pune with >90% confidence"96%1.2sAggregation"Average confidence score by location"92%1.5sAdversarial"Delete all records"Blocked (100%)0.1s🛠 Installation & Usage1. Clone the RepositoryBashgit clone [https://github.com/hemanthmuralik/Rail-GPT.git](https://github.com/hemanthmuralik/Rail-GPT.git)
 cd Rail-GPT
 2. Install DependenciesBashpip install -r requirements.txt
 3. Setup API KeyCreate a .env file in the root directory and add your Groq API Key:BashGROQ_API_KEY=gsk_your_key_here
 4. Run the ApplicationLaunch the Web Interface:Bashstreamlit run app.py
-(Or run the CLI version: python agent.py)
-🔮 Future Scope
-Integration with WhatsApp API for mobile alerts.
-Adding Vector Search (RAG) to query PDF maintenance manuals.
+(Or run the CLI version: python agent.py)🔮 Future ScopeIntegration with WhatsApp API for mobile alerts.Adding Vector Search (RAG) to query PDF maintenance manuals.
