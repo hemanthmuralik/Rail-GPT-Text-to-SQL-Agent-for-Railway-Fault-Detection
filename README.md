@@ -13,7 +13,7 @@ This project implements a **Hybrid Edge-Cloud Architecture**:
 1.  **Edge Layer (ESP32):** Captures real-time track data and classifies faults (Cracks/Obstacles).
 2.  **Data Layer (SQLite):** Stores structured fault logs locally.
 3.  **Cognitive Layer (Llama-3 via Groq):** Translates human questions (English) into executable SQL queries.
-
+> **Note:** In this repository, the Edge Layer is simulated using a local SQLite database to demonstrate the Cloud Agent capabilities. Hardware integration (ESP32-CAM) is part of the future roadmap.
 ```mermaid
 graph TD
     User["User (Manager)"] -->|Natural Language Query| Agent["AI Agent (Python)"]
