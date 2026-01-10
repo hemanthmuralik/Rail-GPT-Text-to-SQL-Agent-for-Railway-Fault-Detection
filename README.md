@@ -59,4 +59,7 @@ cd Rail-GPT
 2. Install DependenciesBashpip install -r requirements.txt
 3. Setup API KeyCreate a .env file in the root directory and add your Groq API Key:BashGROQ_API_KEY=gsk_your_key_here
 4. Run the ApplicationLaunch the Web Interface:Bashstreamlit run app.py
-(Or run the CLI version: python agent.py)🔮 Future ScopeIntegration with WhatsApp API for mobile alerts.Adding Vector Search (RAG) to query PDF maintenance manuals.
+(Or run the CLI version: python agent.py)
+##  🔮 Future Scope
+Integration with WhatsApp API for mobile alerts.
+Adding Vector Search (RAG) to query PDF maintenance manuals.
