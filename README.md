@@ -36,10 +36,15 @@ graph TD
 ```
 ## 🚀 Key Features
 Zero-Hallucination SQL: Uses strict prompt engineering to ensure only valid SQL is generated.
+
 Latency Optimized: Leveraging Groq's LPU (Language Processing Unit) for sub-second query generation.
+
 Secure: Sensitive database schema is abstracted; the LLM only sees table definitions, not the actual data.
+
 Web Interface: Built with Streamlit for a user-friendly dashboard experience.
+
 🛡️ Security & Guardrails
+
 To prevent SQL Injection and accidental data loss, the agent implements:Keyword Blacklisting: Blocks DROP, DELETE, UPDATE, etc.
 Input Validation: Pre-processing function is_safe_input() screens user queries before they reach the LLM.Strict Prompting: System prompts enforce SELECT-only syntax.
 
