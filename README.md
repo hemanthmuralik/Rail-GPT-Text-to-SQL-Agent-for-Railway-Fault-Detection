@@ -46,6 +46,7 @@ Web Interface: Built with Streamlit for a user-friendly dashboard experience.
 🛡️ Security & Guardrails
 
 To prevent SQL Injection and accidental data loss, the agent implements:Keyword Blacklisting: Blocks DROP, DELETE, UPDATE, etc.
+
 Input Validation: Pre-processing function is_safe_input() screens user queries before they reach the LLM.Strict Prompting: System prompts enforce SELECT-only syntax.
 
 ## 📊 Evaluation & Benchmarks
